@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta10
+kind: Config
+metadata:
+  name: k--skaffold
+build:
+  artifacts:
+  - image: matlau/k8-skaffold
+    context: src
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - infra/k8s/app-deploy.yml
+    - infra/k8s/app-service.yml

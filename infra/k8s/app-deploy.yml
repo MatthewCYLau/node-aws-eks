@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8-skaffold-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8-skaffold
+  template:
+    metadata:
+      labels:
+        app: k8-skaffold
+    spec:
+      containers:
+        - name: k8-skaffold
+          image: matlau/k8-skaffold
