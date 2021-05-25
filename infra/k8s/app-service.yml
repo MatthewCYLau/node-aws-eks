@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: k8-skaffold-srv
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: k8-skaffold
   ports:
     - name: k8-skaffold
       protocol: TCP
-      port: 3000
+      port: 80
       targetPort: 3000
