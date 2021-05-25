@@ -1,10 +1,12 @@
-# Kubernetes Skaffold
+# Node App on Amazon EKS
 
-A reference project to build a Kubernetes application with [Skaffold](https://skaffold.dev/)
+A reference project to deploy a Node Express app onto Amazon EKS
 
-A simple Node Express server
+## Pre-requisite
 
-## Usage
+- You have installed [minikube](https://minikube.sigs.k8s.io/docs/start/), [skaffold](https://skaffold.dev/docs/install/), [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/), and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html)
+
+## Local Development
 
 ```bash
 skaffold init # initialises Skaffold
@@ -21,25 +23,28 @@ kubectl get services --field-selector metadata.name=k8-skaffold-srv # get the k8
 
 Then, visit `<minikube_ip>:<port>/ping`
 
-## AWS EKS Deployment
+## Deploy to Amazon EKS
 
 - Install the [eksctl](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html) CLI tool
 - Create an AWS EKS cluster:
 
 ```bash
 eksctl create cluster \
---name test-cluster \
+--name <CLUSTER-NAME> \
 --version 1,17 \
---region us-east-1 \
---nodegroup-name linux-nodes \
+--region <REGION> \
+--nodegroup-name <NODE-GROUP-NAME> \
 --node-type t2.micro \
 --nodes 2
 ```
 
-- Apply config yamls:
+- Apply the Kubernetes manifests `.yaml` files:
 
 ```bash
 kubectl apply -f infra/k8s/
+kubectl get service # find EXTERNAL-IP
 ```
 
-- To view nodes as AWS root user, add root user to `aws-auth` ConfigMap. See documentations [here](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html)
+- Then, visit app at `<EXTERNAL-IP>/ping`
+
+- Note, to view nodes as AWS root user, add root user to `aws-auth` ConfigMap. See documentations [here](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html)
