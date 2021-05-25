@@ -20,3 +20,26 @@ kubectl get services --field-selector metadata.name=k8-skaffold-srv # get the k8
 ```
 
 Then, visit `<minikube_ip>:<port>/ping`
+
+## AWS EKS Deployment
+
+- Install the [eksctl](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html) CLI tool
+- Create an AWS EKS cluster:
+
+```bash
+eksctl create cluster \
+--name test-cluster \
+--version 1,17 \
+--region us-east-1 \
+--nodegroup-name linux-nodes \
+--node-type t2.micro \
+--nodes 2
+```
+
+- Apply config yamls:
+
+```bash
+kubectl apply -f infra/k8s/
+```
+
+- To view nodes as AWS root user, add root user to `aws-auth` ConfigMap. See documentations [here](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html)
